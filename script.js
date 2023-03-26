@@ -72,7 +72,7 @@ btnHold.addEventListener('click',function(){
     if(playing){
         //add current score to active player's score
         scores[activePlayer]+=currentScore;
-        document.getElementById(`score--${activePlayer}`).textContent=[activePlayer];
+        document.getElementById(`score--${activePlayer}`).textContent=scores[activePlayer];
         //check 
         if(scores[activePlayer]>=20){
             playing=false;
