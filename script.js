@@ -40,3 +40,50 @@ const init= function(){
     player1EL.classList.remove(".player--active");
 };
 init();
+
+const switchPlayer=function(){
+    document.getElementById(`current--${activePlayer}`).textContent=0;
+    currentScore=0;
+    activePlayer=activePlayer===0?1:0;
+
+    player0EL.classList.toggle('player--active');
+    player1EL.classList.toggle('player--active');
+}
+//rolling Dice Functionality
+btnRoll.addEventListener('click',function(){
+    if(playing){
+        //generating a random dice 
+        const dice = Math.trunc(Math.random()*6)+1;
+        //display dice 
+        diceEL.classList.remove('hidden');
+        diceEL.src=`dice-${dice}.png`;
+        //check 
+        if(dice!==1){
+            //Add dice to current score
+            currentScore+=dice;
+            document.getElementById(`current--${activePlayer}`).textContent=currentScore
+        }else{
+            //SwitchPlayer
+            switchPlayer();
+        };
+    };
+});
+btnHold.addEventListener('click',function(){
+    if(playing){
+        //add current score to active player's score
+        scores[activePlayer]+=currentScore;
+        document.getElementById(`score--${activePlayer}`).textContent=[activePlayer];
+        //check 
+        if(scores[activePlayer]>=20){
+            playing=false;
+            diceEL.classList.add("hidden");
+            document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+            //document.querySelector(`player--winner`);
+            document.querySelector(`.player--${activePlayer}`).classList.remove(`.player--active`);
+            
+        }else{
+            switchPlayer();
+        }
+    }
+});
+btnNew.addEventListener('click',init);
